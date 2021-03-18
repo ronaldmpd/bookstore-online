@@ -6,5 +6,6 @@ app.get('/', (req, res) => {
 });
 
 app.use(require('./authors'));
+app.use(require('./books'));
 
 module.exports = app;
