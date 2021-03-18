@@ -6,8 +6,6 @@ require('dotenv').config();
 const app = express();
 const { PORT } = require('./config/config');
 
-console.log("PORT: " + PORT);
-
 app.use(json());
 
 app.use(require('./routes'));

@@ -29,7 +29,12 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.DOUBLE,
       allowNull: false
-    }
+    },
+    state: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
   }, {
     sequelize,
     modelName: 'Book',
