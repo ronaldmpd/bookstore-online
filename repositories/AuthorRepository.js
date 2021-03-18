@@ -1,23 +1,23 @@
-const authors = [{
-    id:1,
-    name: 'ronald',
-    eage: 30,
-    nationality: 'Boliviano'
-},
-{
-    id:2,
-    name: 'marcelo',
-    eage: 25,
-    nationality: 'Boliviano'
-}
-];
+const Author = require('../models').Author;
 
 const getAuthors = () => {
     return authors;
 };
 
-const addAuthor = (author) =>{
-    authors.push(author);
+// const getAuthors = async (from, limit, filters, attributes) => {
+//     const data = await Author.findAndCountAll({
+//       limit,
+//       offset: from,
+//       where: filters,
+//       attributes,
+//     });
+//     return data;
+//   };
+  
+
+const addAuthor = async ({name, age, nationality}) =>{    
+    const author = await Author.create({name, age, nationality});
+    return author;
 }
 
 module.exports = {
