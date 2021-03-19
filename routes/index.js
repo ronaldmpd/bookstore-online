@@ -7,5 +7,6 @@ app.get('/', (req, res) => {
 
 app.use(require('./authors'));
 app.use(require('./books'));
-
+app.use(require('./clients'));
+app.use(require('./carts'));
 module.exports = app;
