@@ -80,7 +80,30 @@ app.get("/authors", async (req, res) => {
     }    
   });
 
-
+/**
+ * @swagger
+ * /authors/{authorId}:
+ *  get:
+ *    tags:
+ *      - Authors
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: authorId
+ *        type: number
+ *        required: true
+ *    responses:
+ *      '200':
+ *        description: get author by Id
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Author'
+ *      '404':
+ *        description: Error
+ */
 // GET (obtener un author por su id)
 app.get("/authors/:authorId", async (req, res) => {
     try {
