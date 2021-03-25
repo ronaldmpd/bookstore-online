@@ -22,10 +22,38 @@ const development = {
     host: "127.0.0.1",
     dialect: "mysql",
   };
+
+  const swaggerOptions = {
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "BookStore Onlie API with Swagger",
+        version: "0.1.0",
+        description:
+          "Este es un API que permite realizar un CRUD para administrar/usar nuestra libreria online",
+        license: {
+          name: "MIT",
+          url: "https://spdx.org/licenses/MIT.html",
+        },
+        contact: {
+          name: "ronaldmpd",
+          url: "https://ronaldmpd.me",
+          email: "info@email.com",
+        },
+      },
+      servers: [
+        {
+          url: "http://localhost:3000",
+        },
+      ],
+    },
+    apis: ["./routes/authors.js", './routes/books.js', "./routes/clients.js", "./routes/carts.js"],
+  };
   
 module.exports = {
     PORT,
     development,
     test,
-    production
+    production,
+    swaggerOptions,
 };

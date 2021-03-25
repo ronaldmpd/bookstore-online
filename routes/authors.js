@@ -1,7 +1,69 @@
 const express = require('express');
+
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Author: 
+ *        type: object
+ *        required: 
+ *          - name
+ *          - age
+ *          - nationality
+ *          - state
+ *        properties:
+ *          id:
+ *            type: number
+ *            description: id autogenerado
+ *          name:
+ *            type: string
+ *            description: name of author
+ *          age:
+ *            type: number
+ *            description: age of author
+ *          nationality:
+ *            type: string
+ *            description: nationality of author
+ *          state:
+ *            type: boolean
+ *            description: estado del usuario (activo / inactivo)
+ *        example:
+ *          name: Pablo Meruda
+ *          age: 45
+ *          nationality: Chileno
+ *          state: true
+ */
+
 const app = express();
 const { getAuthors, getAuthorById, addAuthor, updateAuthor, deleteAuthor } = require('../services/AuthorService');
 
+/**
+ * @swagger
+ * /authors:
+ *  get:
+ *    tags:
+ *      - Authors
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: query
+ *        name: from
+ *        type: number
+ *      - in: query
+ *        name: limit
+ *        type: number 
+ *    responses:
+ *      '200':
+ *        description: list of authors paginados
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Author'
+ *      '400':
+ *        description: Error
+ */
 app.get("/authors", async (req, res) => {
     try {
       let from = req.query.from || 0;
@@ -31,13 +93,34 @@ app.get("/authors/:authorId", async (req, res) => {
     }
   });
 
-//POST
+/**
+ * @swagger
+ * /authors:
+ *  post:
+ *    tags:
+ *      - Authors
+ *    produces:
+ *      - application/json
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Author'
+ *    responses:
+ *      '201':
+ *        description: author creado
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Author'
+ */
 app.post('/authors', async (req, res) => {
     console.log(req.body);
     try{
         const body = req.body;
-        const author = await addAuthor(body);
-        return res.json(author);
+        const author = await addAuthor(body);        
+        return res.status(201).json(author);
     }catch(e){
         console.log(e);
         res.status(400).json({
