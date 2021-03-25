@@ -17,6 +17,10 @@ const getCarts = async (from, limit, filters, attributes) => {
     return await CartRepository.getCartById(id);
   };
 
+  const getCartByClientId = async (clientId) => {
+    return await CartRepository.getCartByClientId(clientId);
+  };
+
 const addCart = async (cart) => {
     return await CartRepository.addCart(cart);
 };
@@ -44,6 +48,7 @@ const updateCart = async ({
 module.exports = {
     getCarts,
     getCartById,
+    getCartByClientId,
     addCart,
     updateCart,
     deleteCart,

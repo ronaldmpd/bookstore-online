@@ -14,6 +14,10 @@ const getCarts = async (from, limit, filters, attributes) => {
     return await Cart.findOne({ where: { id } });
   };
 
+  const getCartByClientId = async (clientId) => {
+    return await Cart.findOne({ where: { clientId } });
+  };
+
 const addCart = async ({amount, bookId, clientId }) =>{    
     const cart = await Cart.create({amount, bookId, clientId });
     return cart;
@@ -40,6 +44,7 @@ const updateCart = async ({
 module.exports = {
     getCarts,
     getCartById,
+    getCartByClientId,
     addCart,
     updateCart,
     deleteCart

@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { getCarts, getCartById, addCart, updateCart, deleteCart } = require('../services/CartService');
+const { getCarts, getCartById, getCartByClientId, addCart, updateCart, deleteCart } = require('../services/CartService');
 
 app.get("/carts", async (req, res) => {
     try {
@@ -24,6 +24,18 @@ app.get("/carts/:cartId", async (req, res) => {
     try {
       const cartId = req.params.cartId;
       const cart = await getCartById(cartId);
+      return res.json(cart);
+    } catch (e) {
+      console.log(e);
+      return res.status(404).json({ message: e.message });
+    }
+  });
+
+  //Get Cart by ClientId
+  app.get("/carts/client/:clientId", async (req, res) => {
+    try {
+      const clientId = req.params.clientId;
+      const cart = await getCartByClientId(clientId);
       return res.json(cart);
     } catch (e) {
       console.log(e);
