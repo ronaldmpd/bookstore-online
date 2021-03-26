@@ -152,6 +152,35 @@ app.post('/authors', async (req, res) => {
     }    
 })
 
+/**
+ * @swagger
+ *
+ * /authors/{authorId}:
+ *      put:
+ *          tags:
+ *              - Authors
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: authorId
+ *                type: number 
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Author'
+ *          responses:
+ *              '200':
+ *                  description: user created
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Author'
+ *              '400':
+ *                  description: Error
+ */
 // PUT // UPDATE (actualizar un author)
 app.put("/authors/:authorId", async (req, res) => {
   console.log(req.body);
@@ -166,7 +195,29 @@ app.put("/authors/:authorId", async (req, res) => {
     }
   });
 
-
+/**
+ * @swagger
+ *
+ * /authors/{authorId}:
+ *      delete:
+ *          tags:
+ *              - Authors
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: authorId
+ *                type: number 
+ *          responses:
+ *              '200':
+ *                  description: author delete
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Author'
+ *              '400':
+ *                  description: Error
+ */
 // DELETE (eliminar un author)
 app.delete("/authors/:authorId", async (req, res) => {
   try {
