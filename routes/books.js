@@ -27,6 +27,9 @@ const express = require('express');
  *          state:
  *            type: boolean
  *            description: state of book (activo / inactivo)
+ *          authorId:
+ *            type: number
+ *            description: id of author
  *        example:
  *          title: Java
  *          description: Programming Java

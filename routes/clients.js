@@ -1,7 +1,64 @@
 const express = require('express');
+
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Client: 
+ *        type: object
+ *        required: 
+ *          - name
+ *          - nit
+ *          - state
+ *        properties:
+ *          id:
+ *            type: number
+ *            description: id autogenerado
+ *          name:
+ *            type: string
+ *            description: name of client
+ *          nit:
+ *            type: number
+ *            description: nit of client 
+ *          state:
+ *            type: boolean
+ *            description: estado del usuario (activo / inactivo)
+ *        example:
+ *          name: Ronald
+ *          nit: 12345 
+ *          state: true
+ */
+
 const app = express();
 const { getClients, getClientById, addClient, updateClient, deleteClient } = require('../services/ClientService');
 
+/**
+ * @swagger
+ * /clients:
+ *  get:
+ *    tags:
+ *      - Clients
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: query
+ *        name: from
+ *        type: number
+ *      - in: query
+ *        name: limit
+ *        type: number 
+ *    responses:
+ *      '200':
+ *        description: list of clients paginados
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Client'
+ *      '400':
+ *        description: Error
+ */
 app.get("/clients", async (req, res) => {
     try {
       let from = req.query.from || 0;
@@ -18,7 +75,30 @@ app.get("/clients", async (req, res) => {
     }    
   });
 
-
+/**
+ * @swagger
+ * /clients/{clientId}:
+ *  get:
+ *    tags:
+ *      - Clients
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: clientId
+ *        type: number
+ *        required: true
+ *    responses:
+ *      '200':
+ *        description: get client by Id
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Client'
+ *      '404':
+ *        description: Error
+ */
 // GET (obtener un client por su id)
 app.get("/clients/:clientId", async (req, res) => {
     try {
@@ -31,6 +111,28 @@ app.get("/clients/:clientId", async (req, res) => {
     }
   });
 
+/**
+ * @swagger
+ * /clients:
+ *  post:
+ *    tags:
+ *      - Clients
+ *    produces:
+ *      - application/json
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Client'
+ *    responses:
+ *      '201':
+ *        description: client create
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Client'
+ */
 //POST
 app.post('/clients', async (req, res) => {
     console.log(req.body);
@@ -46,6 +148,35 @@ app.post('/clients', async (req, res) => {
     }    
 })
 
+/**
+ * @swagger
+ *
+ * /clients/{clientId}:
+ *      put:
+ *          tags:
+ *              - Clients
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: clientId
+ *                type: number 
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Client'
+ *          responses:
+ *              '200':
+ *                  description: user created
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Client'
+ *              '400':
+ *                  description: Error
+ */
 // PUT // UPDATE (actualizar un client)
 app.put("/clients/:clientId", async (req, res) => {
   console.log(req.body);
@@ -60,7 +191,29 @@ app.put("/clients/:clientId", async (req, res) => {
     }
   });
 
-
+/**
+ * @swagger
+ *
+ * /clients/{clientId}:
+ *      delete:
+ *          tags:
+ *              - Clients
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: clientId
+ *                type: number 
+ *          responses:
+ *              '200':
+ *                  description: client delete
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Client'
+ *              '400':
+ *                  description: Error
+ */
 // DELETE (eliminar un client)
 app.delete("/clients/:clientId", async (req, res) => {
   try {

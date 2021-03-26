@@ -1,7 +1,62 @@
 const express = require('express');
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Cart: 
+ *        type: object
+ *        required: 
+ *          - amount
+ *          - bookId
+ *          - clientId 
+ *        properties:
+ *          id:
+ *            type: number
+ *            description: id autogenerado 
+ *          amount:
+ *            type: number
+ *            description: amount of books 
+ *          bookId:
+ *            type: number
+ *            description: id of book
+ *          clientId:
+ *            type: number
+ *            description: id of client
+ *        example:
+ *          amount: 1
+ *          bookId: 1
+ *          clientId: 1 
+ */
 const app = express();
 const { getCarts, getCartById, getCartByClientId, addCart, updateCart, deleteCart } = require('../services/CartService');
 
+/**
+ * @swagger
+ * /carts:
+ *  get:
+ *    tags:
+ *      - Carts
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: query
+ *        name: from
+ *        type: number
+ *      - in: query
+ *        name: limit
+ *        type: number 
+ *    responses:
+ *      '200':
+ *        description: list of carts paginations
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Cart'
+ *      '400':
+ *        description: Error
+ */
 app.get("/carts", async (req, res) => {
     try {
       let from = req.query.from || 0;
@@ -18,7 +73,30 @@ app.get("/carts", async (req, res) => {
     }    
   });
 
-
+/**
+ * @swagger
+ * /carts/{cartId}:
+ *  get:
+ *    tags:
+ *      - Carts
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: cartId
+ *        type: number
+ *        required: true
+ *    responses:
+ *      '200':
+ *        description: get cart by Id
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Cart'
+ *      '404':
+ *        description: Error
+ */
 // GET (obtener un cart por su id)
 app.get("/carts/:cartId", async (req, res) => {
     try {
@@ -31,6 +109,31 @@ app.get("/carts/:cartId", async (req, res) => {
     }
   });
 
+/**
+ * @swagger
+ * /carts/client/{clientId}:
+ *  get:
+ *    tags:
+ *      - Carts
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: clientId
+ *        type: number
+ *        required: true
+ *    responses:
+ *      '200':
+ *        description: list of carts paginations
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Cart'
+ *      '400':
+ *        description: Error
+ */
   //Get Cart by ClientId
   app.get("/carts/client/:clientId", async (req, res) => {
     try {
