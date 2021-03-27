@@ -146,13 +146,35 @@ app.get("/carts/:cartId", async (req, res) => {
     }
   });
 
+/**
+ * @swagger
+ * /carts:
+ *  post:
+ *    tags:
+ *      - Carts
+ *    produces:
+ *      - application/json
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Cart'
+ *    responses:
+ *      '201':
+ *        description: cart row create
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Cart'
+ */
 //POST
 app.post('/carts', async (req, res) => {
     console.log(req.body);
     try{
         const body = req.body;
-        const cart = await addCart(body);
-        return res.json(cart);
+        const cart = await addCart(body);        
+        return res.status(201).json(cart);
     }catch(e){
         console.log(e);
         res.status(400).json({
@@ -161,6 +183,35 @@ app.post('/carts', async (req, res) => {
     }    
 })
 
+/**
+ * @swagger
+ *
+ * /carts/{cartId}:
+ *      put:
+ *          tags:
+ *              - Carts
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: cartId
+ *                type: number 
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Cart'
+ *          responses:
+ *              '200':
+ *                  description: cart row created
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Cart'
+ *              '400':
+ *                  description: Error
+ */
 // PUT // UPDATE (actualizar un cart)
 app.put("/carts/:cartId", async (req, res) => {
   console.log(req.body);
@@ -176,6 +227,29 @@ app.put("/carts/:cartId", async (req, res) => {
   });
 
 
+/**
+ * @swagger
+ *
+ * /carts/{cartId}:
+ *      delete:
+ *          tags:
+ *              - Carts
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - in: path
+ *                name: cartId
+ *                type: number 
+ *          responses:
+ *              '200':
+ *                  description: cart row delete
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Cart'
+ *              '400':
+ *                  description: Error
+ */
 // DELETE (eliminar un cart)
 app.delete("/carts/:cartId", async (req, res) => {
   try {
