@@ -47,7 +47,7 @@ const test = {
         },
       ],
     },
-    apis: ["./routes/authors.js", './routes/books.js', "./routes/clients.js", "./routes/carts.js"],
+    apis: ["./routes/authors.js", './routes/books.js', "./routes/clients.js", "./routes/carts.js", "./routes/cartdetails.js"],
   };
   
 module.exports = {

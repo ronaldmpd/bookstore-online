@@ -10,24 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
       this.belongsTo(models.Client, {
         as: 'client', 
         foreignKey: 'clientId'
       } );
 
-      this.belongsTo(models.Book, {
-        as: 'book', 
-        foreignKey: 'bookId'
-      } );
-
+      this.hasMany(models.CartDetail, {
+        as: 'cartdetails',
+        foreignKey: 'cartId'
+      })
     }
   };
   Cart.init({
-    amount: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
+    total:{ 
+      type: DataTypes.DOUBLE,
+      allowNull: true
+    },
+    state: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
   }, {
     sequelize,
     modelName: 'Cart',

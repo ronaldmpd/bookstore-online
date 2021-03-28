@@ -15,36 +15,34 @@ const getCarts = async (from, limit, filters, attributes) => {
   };
 
   const getCartByClientId = async (clientId) => {
-    return await Cart.findOne({ where: { clientId } });
+    return await Cart.findAndCountAll({ where: { clientId, state: true, } });
   };
 
-const addCart = async ({amount, bookId, clientId }) =>{    
-    const cart = await Cart.create({amount, bookId, clientId });
+const addCart = async ({total, status, clientId }) =>{    
+    const cart = await Cart.create({total, status, clientId });
     return cart;
 }
 
 const updateCart = async ({
     cartId,
-    amount,
-    bookId,
+    total,
+    status,
     clientId,    
-  }) => {
-    // const cart = await Cart.update(
-    //   { amount, bookId, clientId },
-    //   { where: { id: cartId } }
-    // );
-    // return cart;
+  }) => {   
     const currentCart = await Cart.findOne({ where: { id: cartId }});
-    currentCart.amount = amount || currentCart.amount;
-    currentCart.bookId = bookId || currentCart.bookId;
+    currentCart.total = total || currentCart.total;
+    currentCart.status = status || currentCart.status;
     currentCart.clientId = clientId || currentCart.clientId;
      
     const cart = await currentCart.save();
     return cart;
   };
 
-  const deleteCart = async (id) => {    
-    const cart = await Cart.destroy({ where: { id } });
+  const deleteCart = async (id) => {        
+    const deleteState = {
+      state: false,
+    };
+    const cart = await Cart.update(deleteState, { where: { id } });
     return cart;
   };
 

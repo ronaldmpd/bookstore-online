@@ -27,11 +27,7 @@ const updateBook = async ({
     state, 
     authorId   
   }) => {
-    // const book = await Book.update(
-    //   { title, description, price, state, authorId },
-    //   { where: { id: bookId } }
-    // );
-
+   
     const currentBook = await Book.findOne({ where: { id: bookId }});
     currentBook.title = title || currentBook.title;
     currentBook.description = description || currentBook.description;

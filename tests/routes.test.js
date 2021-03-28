@@ -123,9 +123,9 @@ describe('Routes Endpoints', () => {
     //------ Carts ------
     it('You must create a Cart', async () => {
         const res = await request(app).post('/carts').send({
-            "amount": 1,
-            "bookId" : 1,    
-            "clientId":  1       
+            "total": 40,
+            "status" : true,    
+            "clientId":  1          
         });
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('id');
@@ -145,19 +145,73 @@ describe('Routes Endpoints', () => {
         expect(res.body).toHaveProperty('id');
     });
 
+    it('It must return a Carts by his ClientId', async () => {
+        const clientId = 1;
+        const res = await request(app).get(`/carts/client/${clientId}`);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('carts');
+        expect(res.body.carts).toHaveLength(1);
+    });
+
     it('You must be able to update a Cart by id', async () => {
         const cartId = 1;
         const res = await request(app).put(`/carts/${cartId}`).send({
-            "amount": 2,
-            "bookId" : 1,    
-            "clientId":  1       
+            "total": 80,
+            "status" : true,    
+            "clientId":  1 
         });
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toHaveProperty('amount');
-        expect(res.body.amount).toBe(2);
+        expect(res.body).toHaveProperty('total');
+        expect(res.body.total).toBe(80);
     });
 
+    //------- CartDetails----------
+    it('You must create a CartDetail', async () => {
+        const res = await request(app).post('/cartdetails').send({
+            "quantity": 1,
+            "amount" : 40,    
+            "bookId":  1,
+            "cartId":  1             
+        });
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty('id');
+    });
+
+    it('It must return a CartDetail by Id', async () => {
+        const cartDetailId = 1;
+        const res = await request(app).get(`/cartdetails/${cartDetailId}`);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('id');
+    });
+
+    it('It must return a CartDetails by his CartId', async () => {
+        const cartId = 1;
+        const res = await request(app).get(`/cartdetails/cart/${cartId}`);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('cartdetails');
+        expect(res.body.cartdetails).toHaveLength(1);
+    });
+
+    it('You must be able to update a CartDetail by id', async () => {
+        const cartDetailId = 1;
+        const res = await request(app).put(`/cartdetails/${cartDetailId}`).send({
+            "quantity": 2,
+            "amount" : 80,    
+            "bookId":  1,
+            "cartId":  1 
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('quantity');
+        expect(res.body.quantity).toBe(2);
+    });
+
+
     //Deletes 
+    it('You must delete the CartDetail', async () => {
+        const cartDetailId = 1;
+        const res = await request(app).delete(`/cartdetails/${cartDetailId}`);
+        expect(res.statusCode).toEqual(204);
+    });
 
     it('You must delete the Cart', async () => {
         const cartId = 1;

@@ -9,4 +9,5 @@ app.use(require('./authors'));
 app.use(require('./books'));
 app.use(require('./clients'));
 app.use(require('./carts'));
+app.use(require('./cartdetails'));
 module.exports = app;

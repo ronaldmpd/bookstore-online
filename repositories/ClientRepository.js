@@ -24,12 +24,7 @@ const updateClient = async ({
     name,
     nit,
     state,    
-  }) => {
-    // const client = await Client.update(
-    //   { name, nit, state },
-    //   { where: { id: clientId } }
-    // );
-    // return client;
+  }) => {    
     const currentClient = await Client.findOne({ where: { id: clientId }});
     currentClient.name = name || currentClient.name;
     currentClient.nit = nit || currentClient.nit;    

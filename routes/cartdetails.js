@@ -3,87 +3,49 @@ const express = require('express');
  * @swagger
  *  components:
  *    schemas:
- *      Cart: 
+ *      CartDetail: 
  *        type: object
  *        required: 
- *          - total
- *          - state
- *          - clientId 
+ *          - quantity
+ *          - amount
+ *          - bookId 
+ *          - cartId
  *        properties:
  *          id:
  *            type: number
  *            description: id autogenerado 
- *          total:
+ *          quantity:
  *            type: number
- *            description: total of books 
- *          state:
+ *            description: quantity of books 
+ *          amount:
+ *            type: number
+ *            description: amount of book
+ *          bookId:
  *            type: number
  *            description: id of book
- *          clientId:
+ *          cartId:
  *            type: number
- *            description: id of client
+ *            description: id of cart
  *        example:
- *          total: 1
- *          state: true
- *          clientId: 1 
+ *          quantity: 1
+ *          amount: 40
+ *          bookId: 1
+ *          cartId: 1 
  */
 const app = express();
-const { getCarts, getCartById, getCartByClientId, addCart, updateCart, deleteCart } = require('../services/CartService');
+const { getCartDetailById, getCartDetailByCartId, addCartDetail, updateCartDetail, deleteCartDetail } = require('../services/CartDetailService');
 
 /**
  * @swagger
- * /carts:
+ * /cartdetails/{cartDetailId}:
  *  get:
  *    tags:
- *      - Carts
- *    produces:
- *      - application/json
- *    parameters:
- *      - in: query
- *        name: from
- *        type: number
- *      - in: query
- *        name: limit
- *        type: number 
- *    responses:
- *      '200':
- *        description: list of carts paginations
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/Cart'
- *      '400':
- *        description: Error
- */
-app.get("/carts", async (req, res) => {
-    try {
-      let from = req.query.from || 0;
-      from = Number(from);
-      let limit = req.query.limit || 5;
-      limit = Number(limit);
-      const attributes = ['id', 'total', 'state', 'clientId'];
-      return res.json(await getCarts(from, limit, null, attributes));
-    } catch (e) {
-      console.log(e);
-      return res.status(400).json({
-        message: e.message,
-      });
-    }    
-  });
-
-/**
- * @swagger
- * /carts/{cartId}:
- *  get:
- *    tags:
- *      - Carts
+ *      - CartDetails
  *    produces:
  *      - application/json
  *    parameters:
  *      - in: path
- *        name: cartId
+ *        name: cartDetailId
  *        type: number
  *        required: true
  *    responses:
@@ -98,11 +60,11 @@ app.get("/carts", async (req, res) => {
  *        description: Error
  */
 // GET (obtener un cart por su id)
-app.get("/carts/:cartId", async (req, res) => {
+app.get("/cartdetails/:cartDetailId", async (req, res) => {
     try {
-      const cartId = req.params.cartId;
-      const cart = await getCartById(cartId);
-      return res.json(cart);
+      const cartDetailId = req.params.cartDetailId;
+      const cartDetail = await getCartDetailById(cartDetailId);
+      return res.json(cartDetail);
     } catch (e) {
       console.log(e);
       return res.status(404).json({ message: e.message });
@@ -111,15 +73,15 @@ app.get("/carts/:cartId", async (req, res) => {
 
 /**
  * @swagger
- * /carts/client/{clientId}:
+ * /cartdetails/cart/{cartId}:
  *  get:
  *    tags:
- *      - Carts
+ *      - CartDetails
  *    produces:
  *      - application/json
  *    parameters:
  *      - in: path
- *        name: clientId
+ *        name: cartId
  *        type: number
  *        required: true
  *    responses:
@@ -130,15 +92,15 @@ app.get("/carts/:cartId", async (req, res) => {
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Cart'
+ *                $ref: '#/components/schemas/CartDetail'
  *      '400':
  *        description: Error
  */
-  //Get Carts by ClientId
-  app.get("/carts/client/:clientId", async (req, res) => {
+  //Get CartDetails by CartId
+  app.get("/cartdetails/cart/:cartId", async (req, res) => {
     try {
-      const clientId = req.params.clientId;
-      const cart = await getCartByClientId(clientId);
+      const cartId = req.params.cartId;
+      const cart = await getCartDetailByCartId(cartId);
       return res.json(cart);
     } catch (e) {
       console.log(e);
@@ -148,10 +110,10 @@ app.get("/carts/:cartId", async (req, res) => {
 
 /**
  * @swagger
- * /carts:
+ * /cartdetails:
  *  post:
  *    tags:
- *      - Carts
+ *      - CartDetails
  *    produces:
  *      - application/json
  *    requestBody:
@@ -159,22 +121,22 @@ app.get("/carts/:cartId", async (req, res) => {
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Cart'
+ *            $ref: '#/components/schemas/CartDetail'
  *    responses:
  *      '201':
  *        description: cart row create
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Cart'
+ *              $ref: '#/components/schemas/CartDetail'
  */
 //POST
-app.post('/carts', async (req, res) => {
+app.post('/cartdetails', async (req, res) => {
     console.log(req.body);
     try{
         const body = req.body;
-        const cart = await addCart(body);        
-        return res.status(201).json(cart);
+        const cartDetail = await addCartDetail(body);        
+        return res.status(201).json(cartDetail);
     }catch(e){
         console.log(e);
         res.status(400).json({
@@ -186,40 +148,40 @@ app.post('/carts', async (req, res) => {
 /**
  * @swagger
  *
- * /carts/{cartId}:
+ * /cartdetails/{cartDetailId}:
  *      put:
  *          tags:
- *              - Carts
+ *              - CartDetails
  *          produces:
  *              - application/json
  *          parameters:
  *              - in: path
- *                name: cartId
+ *                name: cartDetailId
  *                type: number 
  *          requestBody:
  *              required: true
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/Cart'
+ *                          $ref: '#/components/schemas/CartDetail'
  *          responses:
  *              '200':
  *                  description: cart row created
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/Cart'
+ *                              $ref: '#/components/schemas/CartDetail'
  *              '400':
  *                  description: Error
  */
 // PUT // UPDATE (actualizar un cart)
-app.put("/carts/:cartId", async (req, res) => {
+app.put("/cartdetails/:cartDetailId", async (req, res) => {
   console.log(req.body);
     try {
-      const cartId = req.params.cartId;
+      const cartDetailId = req.params.cartDetailId;
       let body = req.body;
-      const cart = await updateCart({ cartId: cartId, ...body });
-      return res.json(cart);
+      const cartDetail = await updateCartDetail({ cartDetailId: cartDetailId, ...body });
+      return res.json(cartDetail);
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: e.message });
@@ -230,15 +192,15 @@ app.put("/carts/:cartId", async (req, res) => {
 /**
  * @swagger
  *
- * /carts/{cartId}:
+ * /cartdetails/{cartDetailId}:
  *      delete:
  *          tags:
- *              - Carts
+ *              - CartDetails
  *          produces:
  *              - application/json
  *          parameters:
  *              - in: path
- *                name: cartId
+ *                name: cartDetailId
  *                type: number 
  *          responses:
  *              '200':
@@ -246,17 +208,17 @@ app.put("/carts/:cartId", async (req, res) => {
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/Cart'
+ *                              $ref: '#/components/schemas/CartDetail'
  *              '400':
  *                  description: Error
  */
-// DELETE (eliminar un cart)
-app.delete("/carts/:cartId", async (req, res) => {
+// DELETE (eliminar un cartDetail)
+app.delete("/cartdetails/:cartDetailId", async (req, res) => {
   try {
-    let cartId = req.params.cartId;
-    const cartDeleted = await deleteCart(cartId);
+    let cartDetailId = req.params.cartDetailId;
+    const cartDeleted = await deleteCartDetail(cartDetailId);
     return res.status(204).json({
-      cart: cartDeleted
+      cartDetail: cartDeleted
     });    
   } catch (e) {
     console.log(e);

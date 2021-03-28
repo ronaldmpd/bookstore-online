@@ -25,13 +25,7 @@ const updateAuthor = async ({
     age,
     nationality,
     state,    
-  }) => {
-    // const author = await Author.update(
-    //   { name, age, nationality, state },
-    //   { where: { id: authorId } }
-    // );
-    // return author;
-
+  }) => {   
     const currentAuthor = await Author.findOne({ where: { id: authorId }});
     currentAuthor.name = name || currentAuthor.name;
     currentAuthor.age = age || currentAuthor.age;

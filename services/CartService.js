@@ -18,7 +18,8 @@ const getCarts = async (from, limit, filters, attributes) => {
   };
 
   const getCartByClientId = async (clientId) => {
-    return await CartRepository.getCartByClientId(clientId);
+    const { count, rows } = await CartRepository.getCartByClientId(clientId);
+    return { count, carts: rows };
   };
 
 const addCart = async (cart) => {
@@ -27,13 +28,13 @@ const addCart = async (cart) => {
 
 const updateCart = async ({
     cartId,
-    amount,
+    total,
     bookId,
     clientId,    
   }) => {
     const cart = await CartRepository.updateCart({
       cartId,
-      amount,
+      total,
       bookId,
       clientId,      
     });
