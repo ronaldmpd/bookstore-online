@@ -222,8 +222,8 @@ app.put("/authors/:authorId", async (req, res) => {
 app.delete("/authors/:authorId", async (req, res) => {
   try {
     let authorId = req.params.authorId;
-    const authorDeleted = await deleteAuthor(authorId);
-    return res.json({
+    const authorDeleted = await deleteAuthor(authorId);    
+    return res.status(204).json({
       author: authorDeleted
     });
   } catch (e) {

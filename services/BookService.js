@@ -9,8 +9,8 @@ const getBooks = async (from, limit, filters, attributes) => {
     } else {
       filters = { ...defaultFilters, ...filters };
     }
-    const data = await BookRepository.getBooks(from, limit, filters, attributes);
-    return data;
+    const { count, rows } = await BookRepository.getBooks(from, limit, filters, attributes);
+    return  { count, books: rows };;
   };
   
   const getBookById = async (id) => {

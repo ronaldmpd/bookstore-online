@@ -138,8 +138,8 @@ app.post('/clients', async (req, res) => {
     console.log(req.body);
     try{
         const body = req.body;
-        const client = await addClient(body);
-        return res.json(client);
+        const client = await addClient(body);        
+        return res.status(201).json(client);
     }catch(e){
         console.log(e);
         res.status(400).json({
@@ -219,9 +219,9 @@ app.delete("/clients/:clientId", async (req, res) => {
   try {
     let clientId = req.params.clientId;
     const clientDeleted = await deleteClient(clientId);
-    return res.json({
+    return res.status(204).json({
       client: clientDeleted
-    });
+    });    
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: e.message });

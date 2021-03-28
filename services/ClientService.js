@@ -9,8 +9,8 @@ const getClients = async (from, limit, filters, attributes) => {
     } else {
       filters = { ...defaultFilters, ...filters };
     }
-    const data = await ClientRepository.getClients(from, limit, filters, attributes);
-    return data;
+    const { count, rows } = await ClientRepository.getClients(from, limit, filters, attributes);
+    return { count, clients: rows };
   };
   
   const getClientById = async (id) => {

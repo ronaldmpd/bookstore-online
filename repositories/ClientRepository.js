@@ -22,14 +22,19 @@ const addClient = async ({name, nit, state}) =>{
 const updateClient = async ({
     clientId,
     name,
-    age,
-    nationality,
+    nit,
     state,    
   }) => {
-    const client = await Client.update(
-      { name, age, nationality, state },
-      { where: { id: clientId } }
-    );
+    // const client = await Client.update(
+    //   { name, nit, state },
+    //   { where: { id: clientId } }
+    // );
+    // return client;
+    const currentClient = await Client.findOne({ where: { id: clientId }});
+    currentClient.name = name || currentClient.name;
+    currentClient.nit = nit || currentClient.nit;    
+    currentClient.state = state || currentClient.state;    
+    const client = await currentClient.save();
     return client;
   };
 

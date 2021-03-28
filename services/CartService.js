@@ -9,8 +9,8 @@ const getCarts = async (from, limit, filters, attributes) => {
     } else {
       filters = { ...defaultFilters, ...filters };
     }
-    const data = await CartRepository.getCarts(from, limit, filters, attributes);
-    return data;
+    const { count, rows } = await CartRepository.getCarts(from, limit, filters, attributes);
+    return { count, carts: rows };
   };
   
   const getCartById = async (id) => {

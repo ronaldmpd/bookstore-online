@@ -9,8 +9,8 @@ const getAuthors = async (from, limit, filters, attributes) => {
     } else {
       filters = { ...defaultFilters, ...filters };
     }
-    const data = await AuthorRepository.getAuthors(from, limit, filters, attributes);
-    return data;
+    const { count, rows } = await AuthorRepository.getAuthors(from, limit, filters, attributes);
+    return { count, authors: rows };
   };
   
   const getAuthorById = async (id) => {

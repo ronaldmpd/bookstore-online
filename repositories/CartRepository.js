@@ -29,10 +29,17 @@ const updateCart = async ({
     bookId,
     clientId,    
   }) => {
-    const cart = await Cart.update(
-      { amount, bookId, clientId },
-      { where: { id: cartId } }
-    );
+    // const cart = await Cart.update(
+    //   { amount, bookId, clientId },
+    //   { where: { id: cartId } }
+    // );
+    // return cart;
+    const currentCart = await Cart.findOne({ where: { id: cartId }});
+    currentCart.amount = amount || currentCart.amount;
+    currentCart.bookId = bookId || currentCart.bookId;
+    currentCart.clientId = clientId || currentCart.clientId;
+     
+    const cart = await currentCart.save();
     return cart;
   };
 

@@ -255,9 +255,9 @@ app.delete("/carts/:cartId", async (req, res) => {
   try {
     let cartId = req.params.cartId;
     const cartDeleted = await deleteCart(cartId);
-    return res.json({
+    return res.status(204).json({
       cart: cartDeleted
-    });
+    });    
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: e.message });

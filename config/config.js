@@ -7,13 +7,13 @@ const development = {
   dialect: process.env.DIALECTDB || "mysql",
 };
 
-  const test = {
-    username: "root",
-    password: null,
-    database: "database_test",
-    host: "127.0.0.1",
-    dialect: "mysql",
-  };
+const test = {
+  username: process.env.USERNAMEDB || "root",
+  password: process.env.PASSWORDDB || "",
+  database: process.env.DATABASE || "bookstore-online-test",
+  host: process.env.HOSTDB || "127.0.0.1",
+  dialect: process.env.DIALECTDB || "mysql",
+};
 
   const production = {
     username: "root",

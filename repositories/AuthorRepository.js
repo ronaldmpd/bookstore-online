@@ -26,11 +26,20 @@ const updateAuthor = async ({
     nationality,
     state,    
   }) => {
-    const author = await Author.update(
-      { name, age, nationality, state },
-      { where: { id: authorId } }
-    );
+    // const author = await Author.update(
+    //   { name, age, nationality, state },
+    //   { where: { id: authorId } }
+    // );
+    // return author;
+
+    const currentAuthor = await Author.findOne({ where: { id: authorId }});
+    currentAuthor.name = name || currentAuthor.name;
+    currentAuthor.age = age || currentAuthor.age;
+    currentAuthor.nationality = nationality || currentAuthor.nationality;
+    currentAuthor.state = state || currentAuthor.state;    
+    const author = await currentAuthor.save();
     return author;
+
   };
 
   const deleteAuthor = async (id) => {

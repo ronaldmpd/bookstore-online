@@ -227,7 +227,7 @@ app.delete("/books/:bookId", async (req, res) => {
   try {
     let bookId = req.params.bookId;
     const bookDeleted = await deleteBook(bookId);
-    return res.json({
+    return res.status(204).json({
       book: bookDeleted
     });
   } catch (e) {
