@@ -55,7 +55,7 @@ const { getCartDetailById, getCartDetailByCartId, addCartDetail, updateCartDetai
  *          application/json:
  *            schema:
  *              type: object
- *              $ref: '#/components/schemas/Cart'
+ *              $ref: '#/components/schemas/CartDetail'
  *      '404':
  *        description: Error
  */
