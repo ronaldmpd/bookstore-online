@@ -14,8 +14,8 @@ const getBooks = async (from, limit, filters, attributes) => {
     return await Book.findOne({ where: { id } });
   };
 
-const addBook = async ({title, description, price, state, authorId}) =>{    
-    const book = await Book.create({title, description, price, state, authorId });
+const addBook = async ({title, description, price, state, authorId, img}) =>{    
+    const book = await Book.create({title, description, price, state, authorId, img });
     return book;
 }
 
@@ -25,7 +25,8 @@ const updateBook = async ({
     description,
     price,
     state, 
-    authorId   
+    authorId,
+    img
   }) => {
    
     const currentBook = await Book.findOne({ where: { id: bookId }});
@@ -33,7 +34,8 @@ const updateBook = async ({
     currentBook.description = description || currentBook.description;
     currentBook.price = price || currentBook.price;
     currentBook.state = state || currentBook.state;
-    currentBook.authorId = authorId || currentBook.authorId;    
+    currentBook.authorId = authorId || currentBook.authorId;
+    currentBook.img = img || currentBook.img;    
     const book = await currentBook.save();
     return book;
   };

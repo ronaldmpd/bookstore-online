@@ -26,7 +26,8 @@ const updateBook = async ({
     title,
     description,
     price,
-    authorId    
+    authorId,
+    img
   }) => {
     const book = await BookRepository.updateBook({
       bookId,
@@ -34,6 +35,7 @@ const updateBook = async ({
       description,
       price,
       authorId,      
+      img,
     });
     return book;
   };

@@ -11,6 +11,7 @@ const express = require('express');
  *          - price
  *          - state
  *          - authorId
+ *          - img
  *        properties:
  *          id:
  *            type: number
@@ -30,12 +31,17 @@ const express = require('express');
  *          authorId:
  *            type: number
  *            description: id of author
+ *          img:
+ *            type: String
+ *            description: image of book
  *        example:
  *          title: Java
  *          description: Programming Java
  *          price: 40.00
  *          state: true
  *          authorId: 1
+ *          img: book.jpg
+ *          
  */
 const app = express();
 const { getBooks, getBookById, addBook, updateBook, deleteBook } = require('../services/BookService');
@@ -73,7 +79,7 @@ app.get("/books", async (req, res) => {
       from = Number(from);
       let limit = req.query.limit || 5;
       limit = Number(limit);
-      const attributes = ['id', 'title', 'description', 'price', 'authorId'];
+      const attributes = ['id', 'title', 'description', 'price', 'authorId','img'];
       return res.json(await getBooks(from, limit, null, attributes));
     } catch (e) {
       console.log(e);
